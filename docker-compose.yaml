@@ -1,6 +1,6 @@
 version: "3.1"
-services: 
-  app: 
+services:
+  app:
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -9,13 +9,15 @@ services:
       - mongodb
     depends_on:
       - mongodb
-    ports: 
-      - "9090:9090"
+    ports:
+      - "3000:3000"
   mongodb:
     image: mongo
     container_name: mongodb
-    volumes: 
+    volumes:
       - mongodata
-volumes: 
-    mongodata:
-      driver: local
+    ports:
+      - 27017:27017
+volumes:
+  mongodata:
+    driver: local

@@ -18,6 +18,17 @@ services:
       - mongodata
     ports:
       - 27017:27017
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3001:3001"
+    tty: true
+    # depends_on:
+    #   - mongodb
 volumes:
   mongodata:
     driver: local

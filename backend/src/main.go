@@ -1,8 +1,5 @@
 package main
 
-import "github.com/gin-gonic/gin"
-
-import "net/http"
 import (
     "context"
     "time"
@@ -11,6 +8,9 @@ import (
     "go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/mongo/options"
     "go.mongodb.org/mongo-driver/bson/primitive"
+    "github.com/gin-gonic/gin"
+    "net/http"
+    "github.com/gin-contrib/cors"
 )
 
 type InsertOneRequest struct {
@@ -21,6 +21,7 @@ type InsertOneRequest struct {
 
 func connectDb() (*mongo.Client){
     client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://mongodb"))
+    // client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
     if err != nil {
         log.Fatal(err)
     }
@@ -49,10 +50,33 @@ func createTestCollection(client *mongo.Client) {
 func main() {
     client := connectDb()
     createTestCollection(client)
-    engine:= gin.Default()
+    engine := gin.Default()
+
+    // CORS対策
+    engine.Use(cors.New(cors.Config{
+        AllowOrigins: []string{
+            "http://localhost:3001",
+            "http://easy-shrimp.com",
+        },
+        AllowMethods: []string{
+            "POST",
+            "GET",
+            "OPTIONS",
+            "DELETE",
+        },
+        AllowHeaders: []string{
+            "Access-Control-Allow-Credentials",
+            "Access-Control-Allow-Headers",
+            "Content-Type",
+            "Content-Length",
+            "Accept-Encoding",
+            "Authorization",
+        },
+        AllowCredentials: false,
+    }))
     engine.GET("/", func(c *gin.Context) {
         c.JSON(http.StatusOK, gin.H{
-            "message": "hello world",
+            "message": "🦐🦐🦐",
         })
     })
     engine.Run(":3000")

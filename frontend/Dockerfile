@@ -5,8 +5,8 @@ WORKDIR /app
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
 
-# RUN apt-get update -y && \
-#   apt-get upgrade -y && \
+RUN apt-get update -y && \
+  apt-get upgrade -y
 #   npm init -y && \
 #   npm install npm@6.14.4 && \
 #   npm install ejs@3.0.1 &&\
@@ -14,4 +14,8 @@ ENV TZ Asia/Tokyo
 
 ADD . /app
 
-# CMD ["npm", "run", "start"]
+RUN npm run build
+
+EXPOSE 3001
+
+CMD ["npm", "run", "start"]

@@ -1,5 +1,11 @@
 version: "3.1"
 services:
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - "app"
   app:
     build:
       context: ./backend
@@ -10,7 +16,7 @@ services:
     depends_on:
       - mongodb
     ports:
-      - "3000:3000"
+      - "3000"
   mongodb:
     image: mongo
     container_name: mongodb
@@ -27,8 +33,6 @@ services:
     ports:
       - "3001:3001"
     tty: true
-    # depends_on:
-    #   - mongodb
 volumes:
   mongodata:
     driver: local

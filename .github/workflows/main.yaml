@@ -11,30 +11,30 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-      with:
-        node-version: 14
+      - uses: actions/checkout@v1
+        with:
+          node-version: 14
 
-    - name: Run Lint
-      run: |
-        yarn install
-        yarn lint
-      working-directory: ./frontend
+      - name: Run Lint
+        run: |
+          yarn install
+          yarn lint
+        working-directory: ./frontend
 
-    backend:
-     name: Go Test
-     runs-on: ubuntu-latest
-     steps:
-       - name: Set up Go 1.14
-         uses: actions/setup-go@v1
-         with:
-           go-version: 1.14
-         id: go
- 
-       - name: Check out code into the Go module directory
-         uses: actions/checkout@v1
- 
-       - name: Run Test
-         run: |
+  backend:
+    name: Go Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.14
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+        id: go
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+
+      - name: Run Test
+        run: |
           go test ./src
         working-directory: ./backend
